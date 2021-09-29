@@ -1,5 +1,108 @@
+body h1 {
+  font-family: "Pacifico", cursive;
+  margin: 0.5em;
+  margin-left: 1em;
+  color: black;
+  text-decoration: underline;
+}
 
 
-/*# sourceMappingURL=main.css.map */
+
+a:visited {
+    text-decoration: none;
+    
+}
+
+body {
+    background-color: rgb(187, 186, 186);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #807b7b;.
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.navbar-nav a {
+    margin-top: 2em;
+    margin-right: 2em;
+    color: black;
+}
+
+.navbar-nav a:hover {
+    color: rgb(29, 29, 29);
+}
+
+#root {
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 6em;
+    margin-bottom: 7em;
+  }
+
+  
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .card {
+    background-color: #f29215;  
+    border-radius: 0.5em;
+    margin: 1rem;
+    border: 1px solid gray;
+    box-shadow: 1px 1px 5px grey;
+  }
+
+  .card:hover {
+    transform: scale(1.01);
+    transition-duration: 0.2s;
+  }
+  
+  @media screen and (min-width: 600px) {
+    .card {
+      flex: 1 1 calc(50% - 2rem);
+    }
+  }
+  
+  @media screen and (min-width: 900px) {
+    .card {
+      flex: 1 1 calc(33% - 2rem);
+    }
+  }
+
+footer {
+  background-color: #1a1919;
+  color: #f3e9f1;
+  flex: 0 0 auto;
+  padding: 1.3rem;
+}
+
+footer a {
+  color: white;
+  text-decoration: none;
+
+}
+
+footer a:hover {
+  color: grey;
+    
+}
+
+.footer__nav {
+    display: flex;
+    
+    padding-left: 1em;
+    justify-content: space-between;
+    
+}
 
 
+
+/*# sourceMappingURL=style.css.map */
