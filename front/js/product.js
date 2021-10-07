@@ -17,7 +17,7 @@ const affichageTitle = document.querySelector("#title")
 const affichagePrice = document.querySelector("#price")
 const affichageContent = document.querySelector(".item__content__titlePrice")
 const affichageDescription = document.querySelector("#description")
-const affichageOption = document.getElementsByTagName('option')
+const affichageOption = document.querySelector('colors')
 console.log(affichageOption)
 
 
@@ -46,9 +46,10 @@ promise01
 
         const description = product.description
 
-        var colors = document.createElement('option')
-        colors.textContent = product.colors
-        console.log(colors)
+        const color = document.createElement("option")
+        color.value = product.colors
+        color.textContent = product.colors
+        console.log(color)
 
         
         affichageImg.appendChild(imageUrl)
@@ -56,6 +57,8 @@ promise01
         affichageTitle.innerHTML = title;
         affichagePrice.innerHTML = price;
         affichageDescription.innerHTML = description;
+        
+        
         
         
         
