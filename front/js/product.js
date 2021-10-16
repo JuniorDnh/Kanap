@@ -17,9 +17,10 @@ const affichageTitle = document.querySelector("#title")
 const affichagePrice = document.querySelector("#price")
 const affichageContent = document.querySelector(".item__content__titlePrice")
 const affichageDescription = document.querySelector("#description")
-const affichageOption = document.querySelector('colors')
-console.log(affichageOption)
-
+const affichageOption = document.querySelector('#colors')
+const affButton = document.querySelector(".item__content__addButton")
+const linkButton = document.querySelector("#addToCart")
+console.log(linkButton)
 
 
 
@@ -45,11 +46,36 @@ promise01
         const price = product.price
 
         const description = product.description
+        
+        
+        var colorValue0 = product.colors[0]
+        var colorValue1 = product.colors[1]
+        var colorValue2 = product.colors[2]
+        var colorValue3 = product.colors[3]
+        const color0 = document.createElement('option')
+        const color1 = document.createElement('option')
+        const color2 = document.createElement('option')
+        const color3 = document.createElement('option')
+        color0.value = colorValue0;
+        color1.value = colorValue1;
+        color2.value = colorValue2;
+        color3.value = colorValue3;
+        color0.textContent = colorValue0
+        color1.textContent = colorValue1
+        color2.textContent = colorValue2
+        color3.textContent = colorValue3
 
-        const color = document.createElement("option")
-        color.value = product.colors
-        color.textContent = product.colors
-        console.log(color)
+        
+        
+
+
+
+        
+        
+
+        
+
+
 
         
         affichageImg.appendChild(imageUrl)
@@ -57,6 +83,14 @@ promise01
         affichageTitle.innerHTML = title;
         affichagePrice.innerHTML = price;
         affichageDescription.innerHTML = description;
+        affichageOption.appendChild(color0);
+        affichageOption.appendChild(color1);
+        affichageOption.appendChild(color2);
+        affichageOption.appendChild(color3);
+        
+        
+        
+        
         
         
         
