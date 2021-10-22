@@ -11,6 +11,7 @@ console.log(productURL);
 //formater le prix :
 let euro = Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
 
+//On selectionne les balises HTML pour intégrer le JS
 const affichageImg = document.querySelector(".item__img");
 const affichageTitle = document.querySelector("#title");
 const affichagePrice = document.querySelector("#price");
@@ -21,6 +22,7 @@ const affButton = document.querySelector(".item__content__addButton");
 const linkButton = document.querySelector("#addToCart");
 console.log(linkButton);
 
+//création d'une constante pour afficher les elements de l'API
 const promise01 = fetch(productURL);
 promise01
   .then((response) => {
@@ -34,46 +36,34 @@ promise01
 
       const imageUrl = document.createElement("img");
       imageUrl.src = product.imageUrl;
+      affichageImg.appendChild(imageUrl);
 
       const altTxt = document.createElement("alt");
       altTxt.textContent = product.altTxt;
+      imageUrl.appendChild(altTxt);
 
       const title = product.name;
+      affichageTitle.innerHTML = title;
 
       const price = product.price;
+      affichagePrice.innerHTML = price;
 
       const description = product.description;
-
-      var colorValue0 = product.colors[0];
-      var colorValue1 = product.colors[1];
-      var colorValue2 = product.colors[2];
-      var colorValue3 = product.colors[3];
-      const color0 = document.createElement("option");
-      const color1 = document.createElement("option");
-      const color2 = document.createElement("option");
-      const color3 = document.createElement("option");
-      color0.value = colorValue0;
-      color1.value = colorValue1;
-      color2.value = colorValue2;
-      color3.value = colorValue3;
-      color0.textContent = colorValue0;
-      color1.textContent = colorValue1;
-      color2.textContent = colorValue2;
-      color3.textContent = colorValue3;
-
-      affichageImg.appendChild(imageUrl);
-      imageUrl.appendChild(altTxt);
-      affichageTitle.innerHTML = title;
-      affichagePrice.innerHTML = price;
       affichageDescription.innerHTML = description;
-      affichageOption.appendChild(color0);
-      affichageOption.appendChild(color1);
-      affichageOption.appendChild(color2);
-      affichageOption.appendChild(color3);
+
+      for (index in product.colors) {
+        affichageOption.options[affichageOption.options.length] = new Option(
+          product.colors[index],
+          product.colors[index]
+        );
+      }
     });
   })
 
   .catch((err) => {
     const errorMessage = document.createElement("marquee");
-    errorMessage.textContent = `Gah, it's not working!`;
+    errorMessage.textContent = `It's not working!`;
   });
+
+
+  
