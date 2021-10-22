@@ -4,34 +4,33 @@ let arrayInCart = JSON.parse(localStorage.getItem("products"));
 
 // Récuperation des données de l'API pour chaque item du tableau
 
-let protocol ="http";
+let protocol = "http";
 let domain = "localhost:3000";
 
-for (item of arrayInCart){
+for (item of arrayInCart) {
+  let itemID = item.id;
+  let itemQuantity = item.quantity;
+  let itemColor = item.color;
 
-    let itemID = item.id;
-    let itemQuantity = item.quantity;
-    let itemColor = item.color;
+  fetch(protocol + "://" + domain + "/api/products/" + itemID)
+    .catch((error) => {
+      let container = document.querySelector(".cart");
+      container.innerHTML = "<p class= error_message> It's not working!</p>";
+    })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (apiResults) {
+      let product = apiResults;
 
-    fetch( protocol + "://" + domain + "/api/products/" + itemID)
-        .catch ((error) => {
-            let container = document.querySelector(".cart");
-            container.innerHTML = "<p class= error_message> <div> Nous n'avons pas réussi à afficher les articles.<br> <br>Avez-vous bien lancé le serveur local (Port 3000) ? <br><br>Si le problème persiste, contactez-nous. </div></p> <style> .error_message {display : flex; justify-content : center; }</style>";
-        })
-        .then(function (response) {
-        return response.json();
-        })
-        .then(function(apiResults) {
-            let sofa = apiResults;
-            
-            let altTxt = sofa.altTxt;
-            let imageUrl = sofa.imageUrl;
-            let name = sofa.name;
-            let price = sofa.price;
-            let itemTotalPrice = price*itemQuantity;
+      let altTxt = product.altTxt;
+      let imageUrl = product.imageUrl;
+      let name = product.name;
+      let price = product.price;
+      let itemTotalPrice = price * itemQuantity;
 
-                    // Affichage des produits dans le panier
-            const cartContent = `<article class="cart__item" data-id="${itemID}">
+      // Affichage des produits dans le panier
+      const cartContent = `<article class="cart__item" data-id="${itemID}">
                 <div class="cart__item__img">
                     <img src="${imageUrl}" alt="${altTxt}">
                 </div>
@@ -52,25 +51,19 @@ for (item of arrayInCart){
                 </div>
                 </div>
                 </article>`;
-            document
-                .getElementById('cart__items')
-                .insertAdjacentHTML('beforeend', cartContent);
-            
-            
-            
-        })
+      document
+        .getElementById("cart__items")
+        .insertAdjacentHTML("beforeend", cartContent);
+    });
 }
 
 //Calcul de la quantité totale d'article dans le panier
 let arrayQuantities = [];
 
-for (let item of arrayInCart){
-    let itemQuantity = item.quantity;
+for (let item of arrayInCart) {
+  let itemQuantity = item.quantity;
 
-
-    arrayQuantities.push(itemQuantity);
-    
-        
+  arrayQuantities.push(itemQuantity);
 }
 console.log(arrayQuantities);
 
@@ -80,33 +73,42 @@ let totalQuantityInCart = arrayQuantities.reduce(reducer);
 
 document.querySelector("#totalQuantity").innerHTML = totalQuantityInCart;
 
-
 //Calcul du prix total
 
-const arrayItemsPrices =[];
+const arrayItemsPrices = [];
 
-for (let item of arrayInCart){
-    let itemQuantity = item.quantity;
-    let itemID = item.id;
+for (let item of arrayInCart) {
+  let itemQuantity = item.quantity;
+  let itemID = item.id;
 
-    fetch( protocol + "://" + domain + "/api/products/" + itemID)
-        .then(function (response) {
-        return response.json();
-        })
-        .then(function(apiResults) {
-            let sofa = apiResults;
-            
-            let altTxt = sofa.altTxt;
-            let imageUrl = sofa.imageUrl;
-            let name = sofa.name;
-            let price = sofa.price;
-            let itemTotalPrice = price*itemQuantity;
-            arrayItemsPrices.push(itemTotalPrice);
-             
-        })
-    
+  fetch(protocol + "://" + domain + "/api/products/" + itemID)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (apiResults) {
+      let product = apiResults;
+
+      let altTxt = product.altTxt;
+      let imageUrl = product.imageUrl;
+      let name = product.name;
+      let price = product.price;
+      let itemTotalPrice = price * itemQuantity;
+      arrayItemsPrices.push(itemTotalPrice);
+
+      let totalPriceOfCart = arrayItemsPrices.reduce(reducer);
+      document.querySelector("#totalPrice").innerHTML = totalPriceOfCart;
+    });
 }
 console.log(arrayItemsPrices);
 
 
+//Supprimer un élément du panier
+const deleteItemInCart = document.querySelector(".deleteItem");
+console.log(deleteItemInCart);
 
+deleteItemInCart.addEventListener('click', (e)=> {
+e.preventDefault;
+localStorage.removeItem("product");
+
+
+});
