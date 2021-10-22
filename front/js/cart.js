@@ -1,8 +1,8 @@
-// retrieve local storage into an array
+// Récupération du localstorage dans un tableau
 
 let arrayInCart = JSON.parse(localStorage.getItem("products"));
 
-// retrieve data from API for each item of the array
+// Récuperation des données de l'API pour chaque item du tableau
 
 let protocol ="http";
 let domain = "localhost:3000";
@@ -30,7 +30,7 @@ for (item of arrayInCart){
             let price = sofa.price;
             let itemTotalPrice = price*itemQuantity;
 
-                    // display of cart products
+                    // Affichage des produits dans le panier
             const cartContent = `<article class="cart__item" data-id="${itemID}">
                 <div class="cart__item__img">
                     <img src="${imageUrl}" alt="${altTxt}">
@@ -61,7 +61,7 @@ for (item of arrayInCart){
         })
 }
 
-//calculate total quantity of items
+//Calcul de la quantité totale d'article dans le panier
 let arrayQuantities = [];
 
 for (let item of arrayInCart){
@@ -81,7 +81,7 @@ let totalQuantityInCart = arrayQuantities.reduce(reducer);
 document.querySelector("#totalQuantity").innerHTML = totalQuantityInCart;
 
 
-//calculate total price of cart
+//Calcul du prix total
 
 const arrayItemsPrices =[];
 
