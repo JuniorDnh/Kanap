@@ -7,7 +7,6 @@ const id = urlId.slice(1);
 //Url pour le produit
 const productURL = "http://localhost:3000/api/products/" + id;
 
-
 //formater le prix :
 let euro = Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
 
@@ -27,7 +26,6 @@ promise01
     console.log(response);
 
     const productData = response.json();
-    
 
     productData.then((product) => {
       console.log(product);

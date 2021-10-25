@@ -2,7 +2,6 @@
 
 let arrayInCart = JSON.parse(localStorage.getItem("products"));
 
-
 // Récuperation des données de l'API pour chaque item du tableau
 
 let protocol = "http";
@@ -102,15 +101,15 @@ for (let item of arrayInCart) {
 }
 console.log(arrayItemsPrices);
 
-
 //Supprimer un élément du panier
 const deleteItemInCart = document.querySelector(".deleteItem");
-deleteItemInCart.insertAdjacentElement('beforeend', '<p class="deleteItem">Supprimer</p>')
+deleteItemInCart.insertAdjacentElement(
+  "beforeend",
+  '<p class="deleteItem">Supprimer</p>'
+);
 console.log(deleteItemInCart);
 
-deleteItemInCart.addEventListener('click', (e)=> {
-e.preventDefault;
-localStorage.removeItem("product");
-
-
+deleteItemInCart.addEventListener("click", (e) => {
+  e.preventDefault;
+  localStorage.removeItem("product");
 });
