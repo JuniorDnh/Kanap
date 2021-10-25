@@ -2,12 +2,13 @@
 
 let arrayInCart = JSON.parse(localStorage.getItem("products"));
 
+
 // Récuperation des données de l'API pour chaque item du tableau
 
 let protocol = "http";
 let domain = "localhost:3000";
 
-for (item of arrayInCart) {
+for (let item of arrayInCart) {
   let itemID = item.id;
   let itemQuantity = item.quantity;
   let itemColor = item.color;

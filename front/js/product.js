@@ -6,7 +6,7 @@ const id = urlId.slice(1);
 
 //Url pour le produit
 const productURL = "http://localhost:3000/api/products/" + id;
-console.log(productURL);
+
 
 //formater le prix :
 let euro = Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
@@ -20,7 +20,6 @@ const affichageDescription = document.querySelector("#description");
 const affichageOption = document.querySelector("#colors");
 const affButton = document.querySelector(".item__content__addButton");
 
-
 //création d'une constante pour afficher les elements de l'API
 const promise01 = fetch(productURL);
 promise01
@@ -28,7 +27,7 @@ promise01
     console.log(response);
 
     const productData = response.json();
-    console.log(productData);
+    
 
     productData.then((product) => {
       console.log(product);
@@ -37,7 +36,6 @@ promise01
       const imageUrl = document.createElement("img");
       imageUrl.src = product.imageUrl;
       affichageImg.appendChild(imageUrl);
-
 
       const altTxt = document.createElement("alt");
       altTxt.textContent = product.altTxt;
@@ -58,7 +56,7 @@ promise01
       //affichage des differentes couleurs du produit
       for (i in product.colors) {
         affichageOption.options[affichageOption.options.length] = new Option(
-          product.colors[i],
+          product.colors[i]
         );
       }
     });
@@ -69,74 +67,53 @@ promise01
     errorMessage.textContent = `It's not working!`;
   });
 
+//Ajouter au panier
+//Ajouter elements dans localstorage
 
-  //Ajouter au panier
-  //Ajouter elements dans localstorage
+const buttonAddToCart = document.querySelector("#addToCart");
+buttonAddToCart.addEventListener("click", function () {
+  if (quantity.value > 0 && affichageOption.value !== "") {
+    let arrayInCart = [];
 
-  const buttonAddTaCart = document.querySelector('#addToCart')
-  buttonAddTaCart.addEventListener('click', function () {
+    let productAdded = {
+      id: id,
+      quantity: parseInt(quantity.value),
+      color: affichageOption.value,
+    };
 
-    if (quantity.value > 0 && affichageOption.value !== "") {
+    // Si le localstorage est vide on y crée un tableau
 
-      let arrayInCart = [];
-  
-      let productAdded = {
-        id: id,
-        quantity: parseInt(quantity.value),
-        color: affichageOption.value,
-  
+    if (localStorage.getItem("products") == null) {
+      arrayInCart.push(productAdded);
+      localStorage.setItem("products", JSON.stringify(arrayInCart));
+    } else {
+      // S'il y a déjà des éléments dans le localstorage, on ajoute le locale storage dans le tableau
+
+      arrayInCart = JSON.parse(localStorage.getItem("products"));
+
+      for (let item of arrayInCart) {
+        item.quantity = parseInt(item.quantity);
       }
-      
-      
-        // Si le localstorage est vide on y crée un tableau
-  
-      if (localStorage.getItem("products") == null){
-  
+
+      const productIndex = arrayInCart.findIndex(
+        (product) =>
+          product.id === productAdded.id && product.color === productAdded.color
+      );
+
+      if (productIndex === -1) {
+        //Si un élément identique n'est pas déjà présent, alors nous ajoutons le nouvel élément au tableau.
+
         arrayInCart.push(productAdded);
         localStorage.setItem("products", JSON.stringify(arrayInCart));
-  
       } else {
-  
-        // S'il y a déjà des éléments dans le localstorage, on ajoute le locale storage dans le tableau
-  
-        arrayInCart = JSON.parse(localStorage.getItem("products"));
-  
-        for (let item of arrayInCart){
-          item.quantity = parseInt(item.quantity);
-        };
-  
-        const productIndex = arrayInCart.findIndex(
-          (product) =>
-            product.id === productAdded.id && product.color === productAdded.color
-        );
-  
-        if (productIndex === -1) { //Si un élément identique n'est pas déjà présent, alors nous ajoutons le nouvel élément au tableau.
-   
-          arrayInCart.push(productAdded);
-          localStorage.setItem("products", JSON.stringify(arrayInCart));
-  
-        } else { //Si un article identique est déjà présent dans le stockage local, alors nous incrémentons la quantité de cet article.
-          arrayInCart[productIndex].quantity = arrayInCart[productIndex].quantity + productAdded.quantity;
-          localStorage.setItem("products", JSON.stringify(arrayInCart));
-  
-  
-        } 
-        
-      };
-      
-      
-      console.log(arrayInCart);
-          console.log(localStorage);
-  
+        //Si un article identique est déjà présent dans le stockage local, alors nous incrémentons la quantité de cet article.
+        arrayInCart[productIndex].quantity =
+          arrayInCart[productIndex].quantity + productAdded.quantity;
+        localStorage.setItem("products", JSON.stringify(arrayInCart));
+      }
     }
-  
-    
-  
-  })
-  
-  
-  
 
-
-
-  
+    console.log(arrayInCart);
+    console.log(localStorage);
+  }
+});
