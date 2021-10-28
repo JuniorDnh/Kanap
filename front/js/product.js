@@ -1,121 +1,101 @@
-// Id de l'url récupérer
-const urlId = window.location.search;
+// Id du produit afficher //
+const newID = new URLSearchParams(location.search);
+const dataID = newID.get("_id");
 
-//supprimer le "?"
-const id = urlId.slice(1);
+// Afficher le localstorage //
+function localStorageProductsCheck() {
+  let localStorageProducts = JSON.parse(
+    localStorage.getItem("localStorageProducts")
+  );
+}
+localStorageProductsCheck();
 
-//Url pour le produit
-const productURL = "http://localhost:3000/api/products/" + id;
+//création d'une fonction pour afficher les elements de l'API
+function apiCallById() {
+  fetch(`http://localhost:3000/api/products/${dataID}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      function productData() {
+        //On selectionne la balise HTML pour intégrer l'image
+        const image = document.querySelector(".item__img");
+        image.innerHTML = `<img src="${data.imageUrl}" alt="${data.altTxt}">`;
 
-//formater le prix :
-let euro = Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
+        //affichage du prix du produit
+        const price = document.getElementById("price");
+        price.innerText = `${data.price}`;
 
-//On selectionne les balises HTML pour intégrer le JS
-const affichageImg = document.querySelector(".item__img");
-const affichageTitle = document.querySelector("#title");
-const affichagePrice = document.querySelector("#price");
-const affichageContent = document.querySelector(".item__content__titlePrice");
-const affichageDescription = document.querySelector("#description");
-const affichageOption = document.querySelector("#colors");
-const affButton = document.querySelector(".item__content__addButton");
+        //affichage du nom du produit
+        const name = document.getElementById("title");
+        name.innerHTML = `<h1>${data.name}</h1>`;
 
-//création d'une constante pour afficher les elements de l'API
-const promise01 = fetch(productURL);
-promise01
-  .then((response) => {
-    console.log(response);
+        //affichage de la description du produit
+        const description = document.getElementById("description");
+        description.innerText = `${data.description}`;
 
-    const productData = response.json();
-
-    productData.then((product) => {
-      console.log(product);
-
-      //affichage de l'image du produit
-      const imageUrl = document.createElement("img");
-      imageUrl.src = product.imageUrl;
-      affichageImg.appendChild(imageUrl);
-
-      const altTxt = document.createElement("alt");
-      altTxt.textContent = product.altTxt;
-      imageUrl.appendChild(altTxt);
-
-      //affichage du nom du produit
-      const title = product.name;
-      affichageTitle.innerHTML = title;
-
-      //affichage du prix du produit
-      const price = product.price;
-      affichagePrice.innerHTML = price;
-
-      //affichage de la description du produit
-      const description = product.description;
-      affichageDescription.innerHTML = description;
-
-      //affichage des differentes couleurs du produit
-      for (i in product.colors) {
-        affichageOption.options[affichageOption.options.length] = new Option(
-          product.colors[i]
-        );
+        //affichage des differentes couleurs du produit
+        const colors = document.getElementById("colors");
+        function colorsOptions() {
+          for (const index in data.colors) {
+            colors.options[colors.options.length] = new Option(
+              data.colors[index]
+            );
+          }
+        }
+        colorsOptions();
       }
+      productData();
+
+      // Ajouter elements dans localstorage //
+      // Ajouter au panier //
+      function buttonAddToCart() {
+        const addToCart = document.getElementById("addToCart");
+        addToCart.addEventListener("click", (event) => {
+          event.preventDefault();
+          let dataQuantity = document.getElementById("quantity");
+          const dataColor = document.getElementById("colors");
+          const StorageArray = {
+            id: dataID,
+            name: data.name,
+            price: data.price,
+            color: dataColor.value,
+            quantity: dataQuantity.value,
+            image: data.imageUrl,
+            alt: data.altTxt,
+          };
+          let localStorageProducts = JSON.parse(
+            localStorage.getItem("localStorageProducts")
+          );
+          if (localStorageProducts === null) {
+            localStorageProducts = [];
+          }
+          let productAdded = false;
+          localStorageProducts.forEach((element) => {
+            // Si le produit ajouté est un article déjà dans le panier //
+            if (element.id === dataID && element.color === dataColor.value) {
+              element.quantity = quantity.value;
+              productAdded = true;
+              alert(`Le nombre de vos articles a été mis à jour !`);
+            }
+          });
+          // Si le produit ajouté est un nouvel article //
+          if (!productAdded) {
+            localStorageProducts.push(StorageArray);
+            alert("Votre article a bien été ajouté au panier !");
+          }
+          localStorage.setItem(
+            "localStorageProducts",
+            JSON.stringify(localStorageProducts)
+          );
+        });
+      }
+      buttonAddToCart();
+    })
+    // Si l'API ne répond pas, un message d'erreur apparait //
+    .catch((error) => {
+      const errorMessage = document.createElement("marquee");
+      error.textContent = "Le serveur ne répond pas pour le moment.";
     });
-  })
-
-  .catch((err) => {
-    const errorMessage = document.createElement("marquee");
-    errorMessage.textContent = `It's not working!`;
-  });
-
-//Ajouter au panier
-//Ajouter elements dans localstorage
-
-const buttonAddToCart = document.querySelector("#addToCart");
-buttonAddToCart.addEventListener("click", function () {
-  if (quantity.value > 0 && affichageOption.value !== "") {
-    let arrayInCart = [];
-
-    let productAdded = {
-      id: id,
-      quantity: parseInt(quantity.value),
-      color: affichageOption.value,
-    };
-
-    // Si le localstorage est vide on y crée un tableau
-
-    if (localStorage.getItem("products") == null) {
-      arrayInCart.push(productAdded);
-      localStorage.setItem("products", JSON.stringify(arrayInCart));
-    } else {
-      // S'il y a déjà des éléments dans le localstorage, on ajoute le locale storage dans le tableau
-
-      arrayInCart = JSON.parse(localStorage.getItem("products"));
-
-      for (let item of arrayInCart) {
-        item.quantity = parseInt(item.quantity);
-      }
-
-      const productIndex = arrayInCart.findIndex(
-        (product) =>
-          product.id === productAdded.id && product.color === productAdded.color
-      );
-
-      if (productIndex === -1) {
-        //Si un élément identique n'est pas déjà présent, alors nous ajoutons le nouvel élément au tableau.
-
-        arrayInCart.push(productAdded);
-
-        localStorage.setItem("products", JSON.stringify(arrayInCart));
-      } else {
-        //Si un article identique est déjà présent dans le stockage local, alors nous incrémentons la quantité de cet article.
-        arrayInCart[productIndex].quantity =
-          arrayInCart[productIndex].quantity + productAdded.quantity;
-
-        localStorage.setItem("products", JSON.stringify(arrayInCart));
-      }
-    }
-
-    console.log(arrayInCart);
-    console.log(localStorage);
-  }
-});
-
-//Formulaire
+}
+apiCallById();

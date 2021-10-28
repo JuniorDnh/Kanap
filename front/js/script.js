@@ -1,38 +1,35 @@
-const app = document.getElementById("items");
-
-var request = new XMLHttpRequest();
-request.open("GET", "http://localhost:3000/api/products/", true);
-request.onload = function () {
-  var data = JSON.parse(this.response);
-  if (request.status >= 200 && request.status < 400) {
-    data.forEach((products) => {
-      console.log(products);
-
-      const productURL = document.createElement("a");
-      productURL.href = "product.html?" + products._id;
-      app.appendChild(productURL);
-
-      const article = document.createElement("article");
-      article.setAttribute("class", "items");
-      productURL.appendChild(article);
-
-      const imageUrl = document.createElement("img");
-      imageUrl.src = products.imageUrl;
-      article.appendChild(imageUrl);
-
-      const name = document.createElement("h3");
-      name.textContent = products.name;
-      article.appendChild(name);
-
-      const description = document.createElement("p");
-      description.textContent = products.description;
-      article.appendChild(description);
+//Appel de l'API //
+function items() {
+  fetch("http://localhost:3000/api/products")
+    // Transformation des données en format json //
+    .then((response) => response.json())
+    .then((data) => {
+      addProducts(data);
+    })
+    // Si l'API ne répond pas, un message d'erreur apparait //
+    .catch((error) => {
+      const errorMessage = document.createElement("marquee");
+      error.textContent = "Le serveur ne répond pas pour le moment.";
     });
-  } else {
-    const errorMessage = document.createElement("marquee");
-    errorMessage.textContent = `It's not working!`;
-    app.appendChild(errorMessage);
-  }
-};
+}
+items();
 
-request.send();
+// Affichage de des données de L'API sur la page //
+function addProducts(data) {
+  //for...of pet de créer une boucle Array qui parcourt un objet itérable //
+  for (const product of data) {
+    // Insère les noeuds du DOM à une position spécifique //
+    const cardProducts = `
+          <a href="./product.html?_id=${product._id}">
+          <article>
+              <img src="${product.imageUrl}" alt="${product.altTxt}">
+             <h3 class="productName">${product.name}</h3>
+             <p class="productDescription">${product.description}</p>
+          </article>
+          </a>
+        `;
+    document
+      .getElementById("items")
+      .insertAdjacentHTML("beforeend", cardProducts);
+  }
+}
