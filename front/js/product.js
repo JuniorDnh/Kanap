@@ -102,11 +102,13 @@ buttonAddToCart.addEventListener("click", function () {
         //Si un élément identique n'est pas déjà présent, alors nous ajoutons le nouvel élément au tableau.
 
         arrayInCart.push(productAdded);
+
         localStorage.setItem("products", JSON.stringify(arrayInCart));
       } else {
         //Si un article identique est déjà présent dans le stockage local, alors nous incrémentons la quantité de cet article.
         arrayInCart[productIndex].quantity =
           arrayInCart[productIndex].quantity + productAdded.quantity;
+
         localStorage.setItem("products", JSON.stringify(arrayInCart));
       }
     }
@@ -115,3 +117,5 @@ buttonAddToCart.addEventListener("click", function () {
     console.log(localStorage);
   }
 });
+
+//Formulaire
