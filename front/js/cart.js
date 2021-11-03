@@ -186,27 +186,34 @@ function getLocalStorageProducts() {
           const addressRegExp = contact.address;
           const addressErrorMsg = document.getElementById("addressErrorMsg");
           // Teste //
-          if (/^[-'a-zA-Z0-9À-ÖØ-öø-ÿ\s]{3,}$/.test(addressRegExp)) {
+          const regex = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{6,}$/g;
+
+          if (!regex.test(addressRegExp)) {
             addressErrorMsg.innerText = "";
             return true;
           } else {
             // Message d'erreur en rouge //
-            addressErrorMsg.innerText = "L'élément renseigné n'est pas conforme. (3 caractères minimum)";
+            addressErrorMsg.innerText =
+              "L'élément renseigné n'est pas conforme. (3 caractères minimum)";
             addressErrorMsg.style.color = "red";
           }
+          console.log(regex);
         }
         // Fonction pour la ville //
         function cityIsValid() {
           const cityRegExp = contact.city;
           const cityErrorMsg = document.getElementById("cityErrorMsg");
           // Teste //
-          if (/^[-'a-zA-ZÀ-ÖØ-öø-ÿ\s]{3,}$/.test(cityRegExp)) {
+          if (
+            /^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$/.test(
+              cityRegExp
+            )
+          ) {
             cityErrorMsg.innerText = "";
             return true;
           } else {
             // Message d'erreur en rouge //
-            cityErrorMsg.innerText =
-              "L'élément renseigné n'est pas conforme. (3 caractères minimum)";
+            cityErrorMsg.innerText = "La ville renseignée n'est pas trouvée.";
             cityErrorMsg.style.color = "red";
           }
         }
@@ -215,13 +222,17 @@ function getLocalStorageProducts() {
           const emailRegExp = contact.email;
           const emailErrorMsg = document.getElementById("emailErrorMsg");
           // Teste //
-          if (/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/.test(emailRegExp)) {
+          if (
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+              emailRegExp
+            )
+          ) {
             emailErrorMsg.innerText = "";
             return true;
           } else {
             // Message d'erreur en rouge //
             emailErrorMsg.innerText =
-              "Renseignez un email valide. (format: Abc@example.com)";
+              "Merci de renseigner un email valide. (format: Abc@example.com)";
             emailErrorMsg.style.color = "red";
           }
         }
@@ -291,15 +302,16 @@ function getLocalStorageProducts() {
         });
       }
       validOrder();
-    }
+    } else {
+      // Confirmation de commande //
+      letOrderId();
 
-    // Message d'alerte si le localstorage est vide //
-    // Cliquez sur Ok nous amène à la page d'accueil //
-    else {
-      alert(`
-      Panier est vide.
-      Retour à la page d'accueil !`);
-      location.href = "index.html";
+      function letOrderId() {
+        let params = new URL(document.location).searchParams;
+        let id = params.get("id");
+        //Afficher le numéro de commande //
+        document.getElementById("orderId").innerText = id;
+      }
     }
   }
   localStorageProductsDOM();
