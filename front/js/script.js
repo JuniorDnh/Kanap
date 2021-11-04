@@ -14,7 +14,7 @@ function items() {
 }
 items();
 
-// Affichage de des données de L'API sur la page //
+// Affichage des données de L'API sur la page //
 function addProducts(data) {
   //for...of pet de créer une boucle Array qui parcourt un objet itérable //
   for (const product of data) {
