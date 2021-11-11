@@ -193,7 +193,7 @@ function getLocalStorageProducts() {
               "L'élément renseigné n'est pas conforme. (3 caractères minimum)";
             addressErrorMsg.style.color = "red";
           }
-          console.log(regex);
+          
         }
         // Fonction pour la ville //
         function cityIsValid() {
