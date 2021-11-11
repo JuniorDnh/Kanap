@@ -106,8 +106,8 @@ function getLocalStorageProducts() {
             localStorageProducts[index].quantity;
           priceCalculation.push(prixMontant);
           // Additionne la somme des resultats obtenus //
-          const reduce = (previousValue, currentValue) =>
-            previousValue + currentValue;
+          const reduce = (previousValue, curentValue) =>
+            previousValue + curentValue;
           total = priceCalculation.reduce(reduce);
         }
         // Afficher le prix total de l'article

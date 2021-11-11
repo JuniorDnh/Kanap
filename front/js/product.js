@@ -72,12 +72,13 @@ function apiCallById() {
             if (element.id === dataID && element.color === dataColor.value) {
               element.quantity = quantity.value;
               productAdded = true;
+
             }
-            
           });
           // Si le produit ajouté est un nouvel article //
           if (!productAdded) {
             localStorageProducts.push(StorageArray);
+            console.log(productAdded);
           }
           localStorage.setItem(
             "localStorageProducts",
