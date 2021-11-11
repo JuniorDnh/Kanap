@@ -1,5 +1,7 @@
 // récupère les produits dans le LocalStorage //
+try {
 function getLocalStorageProducts() {
+  try {
   const localStorageProducts = JSON.parse(
     localStorage.getItem("localStorageProducts")
   );
@@ -311,7 +313,17 @@ function getLocalStorageProducts() {
     }
   }
   localStorageProductsDOM();
+} catch (error) {
+  const errorMessage = document.createElement("marquee");
+  error.textContent = "Le serveur ne répond pas pour le moment.";
+};
 }
 getLocalStorageProducts();
+} 
+catch (error) {
+  const errorMessage = document.createElement("marquee");
+  error.textContent = "Le serveur ne répond pas pour le moment.";
+  
+};
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------//

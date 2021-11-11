@@ -50,7 +50,7 @@ function apiCallById() {
           event.preventDefault();
           let dataQuantity = document.getElementById("quantity");
           const dataColor = document.getElementById("colors");
-          const StorageArray = {
+          let StorageArray = {
             id: dataID,
             name: data.name,
             price: data.price,
@@ -66,16 +66,11 @@ function apiCallById() {
           if (localStorageProducts === "") {
             localStorageProducts = [];
           }
-          let productAdded = false;
-          localStorageProducts.forEach((element) => {
-            // Si le produit ajouté est un article déjà dans le panier //
-            if (element.id === dataID && element.color === dataColor.value) {
-              element.quantity = quantity.value;
-              productAdded = true;
-              
+          let productAdded = false; 
+          
+          // Si le produit ajouté est un article déjà dans le panier //
+        
 
-            }
-          });
           // Si le produit ajouté est un nouvel article //
           if (!productAdded) {
             localStorageProducts.push(StorageArray);
