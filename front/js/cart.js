@@ -8,9 +8,8 @@ function getLocalStorageProducts() {
   function localStorageProductsDOM() {
     if (localStorageProducts) {
       for (let index = 0; index < localStorageProducts.length; index++) {
-        const productTotalPrice =
-          localStorageProducts[index].price *
-          localStorageProducts[index].quantity;
+        const productTotalPrice = localStorageProducts[index].price;
+        localStorageProducts[index].quantity;
         // Insère les noeuds du DOM à une position spécifique //
         const productCart = `<article class="cart__item" data-id="${localStorageProducts[index].id}" data-color="${localStorageProducts[index].color}">
         <div class="cart__item__img">

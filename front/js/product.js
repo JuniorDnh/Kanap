@@ -35,15 +35,10 @@ function apiCallById() {
         description.innerText = `${data.description}`;
 
         //affichage des differentes couleurs du produit
-        const colors = document.getElementById("colors");
-        function colorsOptions() {
-          for (const index in data.colors) {
-            colors.options[colors.options.length] = new Option(
-              data.colors[index]
-            );
-          }
+        let color = document.getElementById("colors");
+        for (i = 0; i < data.colors.length; i++) {
+          color.innerHTML += `<option value="${data.colors[i]}">${data.colors[i]}</option>`;
         }
-        colorsOptions();
       }
       productData();
 
@@ -67,7 +62,8 @@ function apiCallById() {
           let localStorageProducts = JSON.parse(
             localStorage.getItem("localStorageProducts")
           );
-          if (localStorageProducts === null) {
+          // Condition : LocalStorage vide
+          if (localStorageProducts === "") {
             localStorageProducts = [];
           }
           let productAdded = false;
@@ -76,13 +72,12 @@ function apiCallById() {
             if (element.id === dataID && element.color === dataColor.value) {
               element.quantity = quantity.value;
               productAdded = true;
-              alert(`Le nombre de vos articles a été mis à jour !`);
             }
+            
           });
           // Si le produit ajouté est un nouvel article //
           if (!productAdded) {
             localStorageProducts.push(StorageArray);
-            alert("Votre article a bien été ajouté au panier !");
           }
           localStorage.setItem(
             "localStorageProducts",
