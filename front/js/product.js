@@ -69,6 +69,7 @@ function apiCallById() {
           let productAdded = false; 
           
           // Si le produit ajouté est un article déjà dans le panier //
+          for (var i = 0;i < StorageArray.length; i++){}
           
           // Si le produit ajouté est un nouvel article //
           if (!productAdded) {
