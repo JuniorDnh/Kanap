@@ -92,9 +92,6 @@ function getLocalStorageProducts() {
       }
       deleteArticle();
       //----------------------------------------------------//
-      // retrieves the prices in the localStorage           //
-      // multiply the price by the quantity of each product //
-      // adds the sum of the results obtained               //
 
       // Fonction : calculer le prix des articles selectionner //
       function priceCalculation() {
