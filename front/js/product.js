@@ -50,7 +50,7 @@ function apiCallById() {
           event.preventDefault();
           let dataQuantity = document.getElementById("quantity");
           const dataColor = document.getElementById("colors");
-          let StorageArray = {
+          const StorageArray = {
             id: dataID,
             name: data.name,
             price: data.price,
@@ -69,8 +69,7 @@ function apiCallById() {
           let productAdded = false; 
           
           // Si le produit ajouté est un article déjà dans le panier //
-        
-
+          
           // Si le produit ajouté est un nouvel article //
           if (!productAdded) {
             localStorageProducts.push(StorageArray);
