@@ -14,6 +14,7 @@ function items() {
 }
 items();
 
+
 // Affichage des données de L'API sur la page //
 function addProducts(data) {
   //for...of pet de créer une boucle Array qui parcourt un objet itérable //
@@ -33,3 +34,4 @@ function addProducts(data) {
       .insertAdjacentHTML("beforeend", cardProducts);
   }
 }
+

@@ -11,7 +11,7 @@ function localStorageProductsCheck() {
 localStorageProductsCheck();
 
 //création d'une fonction pour afficher les elements de l'API
-function apiCallById() {
+function productPageId() {
   fetch(`http://localhost:3000/api/products/${dataID}`)
     .then((response) => {
       return response.json();
@@ -50,7 +50,7 @@ function apiCallById() {
           event.preventDefault();
           let dataQuantity = document.getElementById("quantity");
           const dataColor = document.getElementById("colors");
-          const StorageArray = {
+          const storageArray = {
             id: dataID,
             name: data.name,
             price: data.price,
@@ -63,18 +63,23 @@ function apiCallById() {
             localStorage.getItem("localStorageProducts")
           );
           // Condition : LocalStorage vide
-          if (localStorageProducts === "") {
+          if (localStorageProducts === null) {
             localStorageProducts = [];
           }
-          let productAdded = false; 
-          
+          let productAdded = false;
+
           // Si le produit ajouté est un article déjà dans le panier //
-          for (var i = 0;i < StorageArray.length; i++){}
-          
+          localStorageProducts.forEach((product) => {
+            if (product.id === dataID && product.color) {
+              sameProduct = product.quantity++;
+
+              productAdded = true;
+            }
+          });
+
           // Si le produit ajouté est un nouvel article //
           if (!productAdded) {
-            localStorageProducts.push(StorageArray);
-            
+            localStorageProducts.push(storageArray);
           }
           localStorage.setItem(
             "localStorageProducts",
@@ -90,4 +95,4 @@ function apiCallById() {
       error.textContent = "Le serveur ne répond pas pour le moment.";
     });
 }
-apiCallById();
+productPageId();
