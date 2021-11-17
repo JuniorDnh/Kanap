@@ -70,7 +70,6 @@ function productPageId() {
 
           // Si le produit ajouté est un article déjà dans le panier //
           localStorageProducts.forEach((product) => {
-            
             if (product.id === dataID && product.color === dataColor.value) {
               sameProduct = product.quantity++;
 
