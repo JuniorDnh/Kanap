@@ -1,23 +1,17 @@
-// Id du produit afficher //
+//Produit sélectionner afficher //
 const newID = new URLSearchParams(location.search);
 const dataID = newID.get("_id");
 
-// Afficher le localstorage //
-function localStorageProductsCheck() {
-  let localStorageProducts = JSON.parse(
-    localStorage.getItem("localStorageProducts")
-  );
-}
-localStorageProductsCheck();
+console.log(dataID);
 
-//création d'une fonction pour afficher les elements de l'API
+//Fonction pour afficher les elements de l'API //
 function productPageId() {
   fetch(`http://localhost:3000/api/products/${dataID}`)
     .then((response) => {
       return response.json();
     })
     .then((data) => {
-      function productData() {
+      function dataProduct() {
         //On selectionne la balise HTML pour intégrer l'image
         const image = document.querySelector(".item__img");
         image.innerHTML = `<img src="${data.imageUrl}" alt="${data.altTxt}">`;
@@ -40,9 +34,9 @@ function productPageId() {
           color.innerHTML += `<option value="${data.colors[i]}">${data.colors[i]}</option>`;
         }
       }
-      productData();
+      dataProduct();
 
-      // Ajouter elements dans localstorage //
+      // Ajouter élements dans localstorage //
       // Ajouter au panier //
       function buttonAddToCart() {
         const addToCart = document.getElementById("addToCart");
@@ -59,6 +53,7 @@ function productPageId() {
             image: data.imageUrl,
             alt: data.altTxt,
           };
+          // Produit envoyé dans le localstorage en format JSON
           let localStorageProducts = JSON.parse(
             localStorage.getItem("localStorageProducts")
           );
@@ -79,8 +74,9 @@ function productPageId() {
 
           // Si le produit ajouté est un nouvel article //
           if (!productAdded) {
+            // ajoute l'élement au tableau et retourne la nouvelle taille du tableau
             localStorageProducts.push(storageArray);
-          }
+          } // ajoute dans l'emplacement de stockage
           localStorage.setItem(
             "localStorageProducts",
             JSON.stringify(localStorageProducts)

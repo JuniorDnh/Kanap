@@ -14,10 +14,9 @@ function items() {
 }
 items();
 
-
 // Affichage des données de L'API sur la page //
 function addProducts(data) {
-  //for...of pet de créer une boucle Array qui parcourt un objet itérable //
+  //for...of permet de créer une boucle Array qui parcourt un objet itérable //
   for (const product of data) {
     // Insère les noeuds du DOM à une position spécifique //
     const cardProducts = `
@@ -34,4 +33,3 @@ function addProducts(data) {
       .insertAdjacentHTML("beforeend", cardProducts);
   }
 }
-
