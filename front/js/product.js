@@ -42,7 +42,7 @@ function productPageId() {
             let dataQuantity = document.getElementById("quantity");
             const dataColor = document.getElementById("colors");
             // Conditition : la quantité est > 0 et qu'une couleur est selectionné, alors le produit est envoyé au panier
-            if (dataQuantity.value > 0 && dataColor.value !== "") {
+            if (100>dataQuantity.value > 0 && dataColor.value !== "") {
               const storageArray = {
                 id: dataID,
                 name: data.name,
