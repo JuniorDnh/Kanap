@@ -26,8 +26,8 @@ function productPageId() {
         description.innerText = `${data.description}`;
 
         //affichage des differentes couleurs du produit
-        for (i = 0; i < data.colors.length; i++) {
-          document.getElementById("colors").innerHTML += `<option value="${data.colors[i]}">${data.colors[i]}</option>`;
+        for (index = 0; index < data.colors.length; index++) {
+          document.getElementById("colors").innerHTML += `<option value="${data.colors[index]}">${data.colors[index]}</option>`;
         }
       }
       dataProduct();

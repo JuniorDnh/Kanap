@@ -46,6 +46,7 @@ try {
             itemQuantity[index].addEventListener("change", (event) => {
               event.preventDefault();
               // Nouvelle quantité //
+              // Const : cible la nouvelle valeur
               const itemNewQuantity = event.target.value;
               const newLocalStorageProducts = localStorageProducts;
               const newStorageArray = {
@@ -59,7 +60,7 @@ try {
               };
               // Créer un nouveau tableau avec la nouvelle quantité //
               newLocalStorageProducts[index] = newStorageArray;
-              // Supprimer le localstorage //
+              // Supprimer le localstorage pour en recréer un nouveau //
               localStorage.clear();
               localStorage.setItem(
                 "localStorageProducts",
@@ -186,14 +187,13 @@ try {
             const addressErrorMsg = document.getElementById("addressErrorMsg");
             // Teste //
             const regex = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{6,}$/g;
-
             if (!regex.test(addressRegExp)) {
               addressErrorMsg.innerText = "";
               return true;
             } else {
               // Message d'erreur en rouge //
               addressErrorMsg.innerText =
-                "L'élément renseigné n'est pas conforme. (3 caractères minimum)";
+                "L'adresse renseignée n'est pas trouvée. (3 caractères minimum)";
               addressErrorMsg.style.color = "red";
             }
           }
