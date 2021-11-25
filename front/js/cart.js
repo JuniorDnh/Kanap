@@ -6,7 +6,7 @@ try {
         // renvoie la valeur du storage
         localStorage.getItem("localStorageProducts")
       );
-      console.log(localStorageProducts);
+     
 
       // Fonction pour afficher les données ajoutées dans le localstorage
       function localStorageProductsDOM() {
