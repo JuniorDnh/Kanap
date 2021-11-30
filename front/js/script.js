@@ -8,8 +8,7 @@ function items() {
     })
     // Si l'API ne répond pas, un message d'erreur apparait //
     .catch((error) => {
-      const errorMessage = document.createElement("marquee");
-      error.textContent = "Le serveur ne répond pas pour le moment.";
+      alert("Le serveur ne répond pas pour le moment.")
     });
 }
 items();

@@ -1,4 +1,4 @@
-// récupère les produits dans le LocalStorage //
+// récupère les produits dans le LocalStorage
 try {
   function getLocalStorageProducts() {
     const localStorageProducts = JSON.parse(
@@ -12,7 +12,7 @@ try {
         for (let index = 0; index < localStorageProducts.length; index++) {
           const productTotalPrice = localStorageProducts[index].price;
           localStorageProducts[index].quantity;
-          // Insère les noeuds du DOM à une position spécifique //
+          // Insère les noeuds du DOM à une position spécifique
           const productCart = `<article class="cart__item" data-id="${localStorageProducts[index].id}" data-color="${localStorageProducts[index].color}">
         <div class="cart__item__img">
         <img src="${localStorageProducts[index].image}" alt="${localStorageProducts[index].alt}">
@@ -39,7 +39,7 @@ try {
             .insertAdjacentHTML("beforeend", productCart);
         }
 
-        // Fonction pour modifier la quantité un produit //
+        // Fonction pour modifier la quantité un produit
         function changeQuantity() {
           const itemQuantity = document.querySelectorAll(".itemQuantity");
           for (let index = 0; index < itemQuantity.length; index++) {
@@ -58,26 +58,26 @@ try {
                 image: localStorageProducts[index].image,
                 alt: localStorageProducts[index].alt,
               };
-              // Créer un nouveau tableau avec la nouvelle quantité //
+              // Créer un nouveau tableau avec la nouvelle quantité 
               newLocalStorageProducts[index] = newStorageArray;
-              // Supprimer le localstorage pour en recréer un nouveau //
+              // Supprimer le localstorage pour en recréer un nouveau 
               localStorage.clear();
               localStorage.setItem(
                 "localStorageProducts",
                 JSON.stringify(newLocalStorageProducts)
               );
-              // Recharger la page cart.html pour mettre à jour la quantité et le prix //
+              // Recharger la page cart.html pour mettre à jour la quantité et le prix 
               location.reload();
             });
           }
         }
         changeQuantity();
 
-        // Fonction supprimer un article //
+        // Fonction supprimer un article 
         function deleteArticle() {
           const deleteItem = document.querySelectorAll(".deleteItem");
           for (let index = 0; index < deleteItem.length; index++) {
-            // Bouton pour supprimer un produit dans le panier //
+            // Bouton pour supprimer un produit dans le panier 
             deleteItem[index].addEventListener("click", (event) => {
               event.preventDefault();
 
@@ -88,24 +88,24 @@ try {
                 "localStorageProducts",
                 JSON.stringify(newLocalStorageProducts)
               );
-              // Recharger la page cart.html pour mettre à jour la quantité et le prix //
+              // Recharger la page cart.html pour mettre à jour la quantité et le prix 
               location.reload();
             });
           }
         }
         deleteArticle();
-        //----------------------------------------------------//
+        
 
-        // Fonction : calculer le prix des articles selectionner //
+        // Fonction : calculer le prix des articles selectionner 
         function priceCalculation() {
           const priceCalculation = [];
           for (let index = 0; index < localStorageProducts.length; index++) {
-            // Additionne le prix selon la quantité selectionnée //
+            // Additionne le prix selon la quantité selectionnée 
             const prixMontant =
               localStorageProducts[index].price *
               localStorageProducts[index].quantity;
             priceCalculation.push(prixMontant);
-            // Additionne la somme des resultats obtenus //
+            // Additionne la somme des resultats obtenus 
             const reduce = (previousValue, curentValue) =>
               previousValue + curentValue;
             total = priceCalculation.reduce(reduce);
@@ -120,20 +120,19 @@ try {
         function totalArticles() {
           let total = 0;
           for (let index in localStorageProducts) {
-            // Quantité total des articles //
+            // Quantité total des articles 
             const quantity = parseInt(localStorageProducts[index].quantity, 10);
-            // Calcul le montant total //
-            total += quantity;
+            // Calcul le montant total 
           }
           return total;
         }
-        // Affiche le montant total du panier //
+        // Affiche le montant total du panier 
         const totalQuantity = document.getElementById("totalQuantity");
         totalQuantity.textContent = totalArticles();
 
-        //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-        // Formulaire //
-        // Construction d'un tableau //
+       
+        // Formulaire 
+        // Construction d'un tableau 
         class Form {
           constructor() {
             this.firstName = document.getElementById("firstName").value;
@@ -144,11 +143,11 @@ try {
           }
         }
 
-        // Fonctton : Validation. Teste la validité du formulaire //
+        // Fonctton : Validation. Teste la validité du formulaire 
         function validation() {
-          // Récupère le tableau construit //
+          // Récupère le tableau construit 
           const contact = new Form();
-          // Fonction pour le prénom //
+          // Fonction pour le prénom 
           function firstNameIsValid() {
             const firstNameRegExp = contact.firstName;
             const firstNameErrorMsg =
@@ -158,30 +157,30 @@ try {
               firstNameErrorMsg.innerText = "";
               return true;
             } else {
-              // Message d'erreur en rouge //
+              // Message d'erreur en rouge 
               firstNameErrorMsg.innerText =
                 "L'élément renseigné n'est pas conforme. (3 caractères minimum)";
               firstNameErrorMsg.style.color = "red";
             }
           }
-          // Fonction pour le nom de famille //
+          // Fonction pour le nom de famille 
           function lastNameIsValid() {
             const lastNameRegExp = contact.lastName;
             const lastNameErrorMsg =
               document.getElementById("lastNameErrorMsg");
-            // Teste //
+            // Teste 
             if (/^[-'a-zA-ZÀ-ÖØ-öø-ÿ\s]{3,}$/.test(lastNameRegExp)) {
               lastNameErrorMsg.innerText = "";
               return true;
             } else {
-              // Message d'erreur en rouge //
+              // Message d'erreur en rouge 
               lastNameErrorMsg.innerText =
                 "L'élément renseigné n'est pas conforme. (3 caractères minimum)";
               lastNameErrorMsg.style.color = "red";
             }
           }
 
-          // Fonction pour l'adresse //
+          // Fonction pour l'adresse 
           function addressIsValid() {
             const addressRegExp = contact.address;
             const addressErrorMsg = document.getElementById("addressErrorMsg");
@@ -191,17 +190,17 @@ try {
               addressErrorMsg.innerText = "";
               return true;
             } else {
-              // Message d'erreur en rouge //
+              // Message d'erreur en rouge 
               addressErrorMsg.innerText =
                 "L'adresse renseignée n'est pas trouvée. (3 caractères minimum)";
               addressErrorMsg.style.color = "red";
             }
           }
-          // Fonction pour la ville //
+          // Fonction pour la ville 
           function cityIsValid() {
             const cityRegExp = contact.city;
             const cityErrorMsg = document.getElementById("cityErrorMsg");
-            // Teste //
+            // Teste 
             if (
               /^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$/.test(
                 cityRegExp
@@ -210,16 +209,16 @@ try {
               cityErrorMsg.innerText = "";
               return true;
             } else {
-              // Message d'erreur en rouge //
+              // Message d'erreur en rouge 
               cityErrorMsg.innerText = "La ville renseignée n'est pas trouvée.";
               cityErrorMsg.style.color = "red";
             }
           }
-          // Fonction pour l'email //
+          // Fonction pour l'email 
           function emailIsValid() {
             const emailRegExp = contact.email;
             const emailErrorMsg = document.getElementById("emailErrorMsg");
-            // Teste //
+            // Teste 
             if (
               /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
                 emailRegExp
@@ -228,14 +227,14 @@ try {
               emailErrorMsg.innerText = "";
               return true;
             } else {
-              // Message d'erreur en rouge //
+              // Message d'erreur en rouge 
               emailErrorMsg.innerText =
                 "Merci de renseigner un email valide. (format: Abc@example.com)";
               emailErrorMsg.style.color = "red";
             }
           }
           if (
-            // Si le formulaire est correctement rempli alors il est valide //
+            // Si le formulaire est correctement rempli alors il est valide 
             firstNameIsValid() &&
             lastNameIsValid() &&
             addressIsValid() &&
@@ -244,13 +243,13 @@ try {
           ) {
             return true;
           } else {
-            // Si le formulaire n'est pas rempli, une alerte apparait //
+            // Si le formulaire n'est pas rempli, une alerte apparait 
             alert("Merci de remplir correctement le formulaire.");
             return false;
           }
         }
 
-        //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+      
 
         // Bouton valider qui renvoi vers la page confirmation avec le numéro de commande //
         function validOrder() {
@@ -321,8 +320,7 @@ try {
   }
   getLocalStorageProducts();
 } catch (error) {
-  const errorMessage = document.createElement("marquee");
-  error.textContent = "Le serveur ne répond pas pour le moment.";
+  alert('Le panier est vide.')
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------//

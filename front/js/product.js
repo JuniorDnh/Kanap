@@ -1,7 +1,7 @@
-//Produit sélectionner afficher //
+//Produit sélectionner afficher 
 const dataID = new URLSearchParams(location.search).get("_id");
 
-//Fonction pour afficher les elements de l'API //
+//Fonction pour afficher les elements de l'API 
 function productPageId() {
   fetch(`http://localhost:3000/api/products/${dataID}`)
     .then((response) => {
@@ -32,8 +32,8 @@ function productPageId() {
       }
       dataProduct();
 
-      // Ajouter élements dans localstorage //
-      // Ajouter au panier //
+      // Ajouter élements dans localstorage 
+      // Ajouter au panier 
       function buttonAddToCart() {
         document
           .getElementById("addToCart")
@@ -42,7 +42,7 @@ function productPageId() {
             let dataQuantity = document.getElementById("quantity");
             const dataColor = document.getElementById("colors");
             // Conditition : la quantité est > 0 et qu'une couleur est selectionné, alors le produit est envoyé au panier
-            if (100>dataQuantity.value > 0 && dataColor.value !== "") {
+            if (100>=dataQuantity.value && dataQuantity.value > 0 && dataColor.value !== "") {
               const storageArray = {
                 id: dataID,
                 name: data.name,
@@ -62,15 +62,20 @@ function productPageId() {
               }
               let productAdded = false;
 
-              // Si le produit ajouté est un article déjà dans le panier //
+              // Si le produit ajouté est un article déjà dans le panier, seulement 1 article sera ajouté.
               localStorageProducts.forEach((product) => {
                 if (product.id === dataID && product.color === dataColor.value) {
-                  let sameProduct = product.quantity++;
+                  1>=dataQuantity.value && dataQuantity.value > 0 && dataColor.value !== 
+                  product.quantity++
                   productAdded = true;
+                  if (dataQuantity.value > 1) {
+                    alert ("Merci d'ajouter seulement 1 article à la fois.")
+                  }
                 }
               });
-
-              // Si le produit ajouté est un nouvel article //
+              
+              
+              // Si le produit ajouté est un nouvel article 
               if (!productAdded) {
                 // ajoute l'élement au tableau et retourne la nouvelle taille du tableau
                 localStorageProducts.push(storageArray);
@@ -78,16 +83,18 @@ function productPageId() {
               localStorage.setItem(
                 "localStorageProducts",
                 JSON.stringify(localStorageProducts)
-              );
+              ); 
+            
+            } else {
+              alert("Attention, le nombre d'article doit être compris entre 1 et 100 maximum."); 
             }
           });
       }
       buttonAddToCart();
     })
-    // Si l'API ne répond pas, un message d'erreur apparait //
+    // Si l'API ne répond pas, un message d'erreur apparait 
     .catch((error) => {
-      const errorMessage = document.createElement("marquee");
-      error.textContent = "Le serveur ne répond pas pour le moment.";
+      alert("Le serveur ne répond pas pour le moment.")
     });
 }
 productPageId();
