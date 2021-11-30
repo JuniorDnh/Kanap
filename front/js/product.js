@@ -74,7 +74,6 @@ function productPageId() {
                 }
               });
               
-              
               // Si le produit ajouté est un nouvel article 
               if (!productAdded) {
                 // ajoute l'élement au tableau et retourne la nouvelle taille du tableau
