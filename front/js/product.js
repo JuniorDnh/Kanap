@@ -65,7 +65,7 @@ function productPageId() {
               // Si le produit ajouté est un article déjà dans le panier, seulement 1 article sera ajouté.
               localStorageProducts.forEach((product) => {
                 if (product.id === dataID && product.color === dataColor.value) {
-                  1>=dataQuantity.value && dataQuantity.value > 0 && dataColor.value !== 
+                  1>=dataQuantity.value && dataColor.value !== 
                   product.quantity++
                   productAdded = true;
                   if (dataQuantity.value > 1) {
