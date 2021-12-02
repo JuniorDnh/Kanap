@@ -304,7 +304,6 @@ try {
         validOrder();
       } else {
         // Confirmation de commande 
-
         function letOrderId() {
           let params = new URL(document.location).searchParams;
           let id = params.get("id");
