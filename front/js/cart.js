@@ -45,7 +45,7 @@ try {
           for (let index = 0; index < itemQuantity.length; index++) {
             itemQuantity[index].addEventListener("change", (event) => {
               event.preventDefault();
-              // Nouvelle quantité //
+              // Nouvelle quantité
               // Const : cible la nouvelle valeur
               const itemNewQuantity = event.target.value;
               const newLocalStorageProducts = localStorageProducts;
@@ -81,7 +81,7 @@ try {
             deleteItem[index].addEventListener("click", (event) => {
               event.preventDefault();
 
-              // Ampile les nouveaux produit /
+              // Ampile les nouveaux produit
               const newLocalStorageProducts = localStorageProducts;
               newLocalStorageProducts.splice(index, 1);
               localStorage.setItem(
@@ -116,12 +116,12 @@ try {
         }
         priceCalculation();
 
-        //Fonction : prix total//
+        //Fonction : prix total
         function totalArticles() {
           let total = 0;
           for (let index in localStorageProducts) {
             // Quantité total des articles 
-            const quantity = parseInt(localStorageProducts[index].quantity, 10);
+            const quantity = parseInt(localStorageProducts[index].quantity);
             // Calcul le montant total 
           }
           return total;
@@ -251,13 +251,13 @@ try {
 
       
 
-        // Bouton valider qui renvoi vers la page confirmation avec le numéro de commande //
+        // Bouton valider qui renvoi vers la page confirmation avec le numéro de commande 
         function validOrder() {
           const order = document.getElementById("order");
           order.addEventListener("click", (event) => {
             event.preventDefault();
             if (validation()) {
-              // Si la fonction validation est true //
+              // Si la fonction validation est true 
               const products = [];
               for (
                 let index = 0;
@@ -266,8 +266,8 @@ try {
               ) {
                 products.push(localStorageProducts[index].id);
               }
-              // Tableau contenant toutes les données du formulaire rempli + les produits achetés //
-              const contactProductsArray = {
+              // Tableau contenant toutes les données du formulaire rempli + les produits acheté
+              const contactProductsArray = { 
                 contact: {
                   firstName: firstName.value,
                   lastName: lastName.value,
@@ -277,40 +277,38 @@ try {
                 },
                 products,
               };
-              // Transmettre les données au backend avec la requête POST //
+              // Transmettre les données au backend avec la requête POST 
               fetch("http://localhost:3000/api/products/order", {
                 method: "POST",
                 headers: {
                   Accept: "application/json",
                   "Content-Type": "application/json",
                 },
-                // Tableau javascript en json //
+                // Tableau javascript en json 
                 body: JSON.stringify(contactProductsArray),
               })
                 .then((response) => response.json())
                 .then((id) => {
-                  // Une fois la commande validée, le localestorage se vide //
+                  // Une fois la commande validée, le localestorage se vide 
                   localStorage.clear();
-                  // Une fois la commande validée, direction vers la page confirmation //
+                  // Une fois la commande validée, direction vers la page confirmation 
                   document.location.href = `confirmation.html?id=${id.orderId}`;
                 })
-                // Si l'API ne répond pas, un message d'erreur apparait //
+                // Si l'API ne répond pas, un message d'erreur apparait 
                 .catch((error) => {
-                  const errorMessage = document.createElement("marquee");
-                  error.textContent =
-                    "Le serveur ne répond pas pour le moment.";
+                  alert("Le serveur ne répond pas pour le moment.")
                 });
             }
           });
         }
         validOrder();
       } else {
-        // Confirmation de commande //
+        // Confirmation de commande 
 
         function letOrderId() {
           let params = new URL(document.location).searchParams;
           let id = params.get("id");
-          //Afficher le numéro de commande //
+          //Afficher le numéro de commande 
           document.getElementById("orderId").innerText = id;
         }
         letOrderId();
@@ -322,5 +320,3 @@ try {
 } catch (error) {
   alert('Le panier est vide.')
 }
-
-//-------------------------------------------------------------------------------------------------------------------------------------------------------------//
