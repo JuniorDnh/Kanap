@@ -1,109 +1,99 @@
-// Id de l'url récupérer
-const urlId = window.location.search;
+//Produit sélectionner afficher 
+const dataID = new URLSearchParams(location.search).get("_id");
 
-//supprimer le "?"
-const id = urlId.slice(1);
+//Fonction pour afficher les elements de l'API 
+function getDataFromApi() {
+    fetch(`http://localhost:3000/api/products/${dataID}`)
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            function dataProduct() {
+                //On selectionne la balise HTML pour intégrer l'image
+                const image = document.querySelector(".item__img");
+                image.innerHTML = `<img src="${data.imageUrl}" alt="${data.altTxt}">`;
 
-//Url pour le produit
-const productURL = "http://localhost:3000/api/products/" + id;
-console.log(productURL);
+                //affichage du prix du produit
+                const price = document.getElementById("price");
+                price.innerText = `${data.price}`;
 
-//formater le prix :
-let euro = Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
+                //affichage du nom du produit
+                const name = document.getElementById("title");
+                name.innerHTML = `<h1>${data.name}</h1>`;
 
+                //affichage de la description du produit
+                const description = document.getElementById("description");
+                description.innerText = `${data.description}`;
 
-const affichageImg = document.querySelector(".item__img")
-const affichageTitle = document.querySelector("#title")
-const affichagePrice = document.querySelector("#price")
-const affichageContent = document.querySelector(".item__content__titlePrice")
-const affichageDescription = document.querySelector("#description")
-const affichageOption = document.querySelector('#colors')
-const affButton = document.querySelector(".item__content__addButton")
-const linkButton = document.querySelector("#addToCart")
-console.log(linkButton)
+                //affichage des differentes couleurs du produit
+                for (index = 0; index < data.colors.length; index++) {
+                    document.getElementById("colors").innerHTML += `<option value="${data.colors[index]}">${data.colors[index]}</option>`;
+                }
+            }
+            dataProduct();
 
+            // Ajouter élements dans localstorage 
+            // Ajouter au panier 
+            function setLocalStorage() {
+                document
+                    .getElementById("addToCart")
+                    .addEventListener("click", (event) => {
+                        event.preventDefault();
+                        let dataQuantity = document.getElementById("quantity");
+                        const dataColor = document.getElementById("colors");
+                        // Conditition : la quantité est > 0 et qu'une couleur est selectionné, alors le produit est envoyé au panier
+                        if (100 >= dataQuantity.value && dataQuantity.value > 0 && dataColor.value !== "") {
+                            const storageArray = {
+                                id: dataID,
+                                name: data.name,
+                                price: data.price,
+                                color: dataColor.value,
+                                quantity: dataQuantity.value,
+                                image: data.imageUrl,
+                                alt: data.altTxt,
+                            };
+                            // Produit envoyé dans le localstorage en format JSON
+                            let localStorageProducts = JSON.parse(
+                                localStorage.getItem("localStorageProducts")
+                            );
+                            // Condition : LocalStorage vide
+                            if (localStorageProducts === null) {
+                                localStorageProducts = [];
+                            }
+                            let productAdded = false;
 
+                            // Si le produit ajouté est un article déjà dans le panier, seulement 1 article sera ajouté.
+                            localStorageProducts.forEach((product) => {
+                                if (product.id === dataID && product.color === dataColor.value) {
+                                    1 >= dataQuantity.value && dataColor.value !==
+                                        product.quantity++
+                                    productAdded = true;
+                                    if (dataQuantity.value > 1) {
+                                        alert("Merci d'ajouter seulement 1 article à la fois.")
+                                    }
+                                }
+                            });
 
-const promise01 = fetch(productURL)
-promise01
-.then((response) => {
-    console.log(response);
+                            // Si le produit ajouté est un nouvel article 
+                            if (!productAdded) {
+                                // ajoute l'élement au tableau et retourne la nouvelle taille du tableau
+                                localStorageProducts.push(storageArray);
+                            } // ajoute dans l'emplacement de stockage
+                            localStorage.setItem(
+                                "localStorageProducts",
+                                JSON.stringify(localStorageProducts)
+                            );
 
-    const productData = response.json();
-    console.log(productData);
-
-    productData.then((product) => {
-        console.log(product);
-
-        const imageUrl = document.createElement("img");
-        imageUrl.src = product.imageUrl;
-
-        const altTxt = document.createElement("alt")
-        altTxt.textContent = product.altTxt
-        
-        const title = product.name
-
-        const price = product.price
-
-        const description = product.description
-        
-        
-        var colorValue0 = product.colors[0]
-        var colorValue1 = product.colors[1]
-        var colorValue2 = product.colors[2]
-        var colorValue3 = product.colors[3]
-        const color0 = document.createElement('option')
-        const color1 = document.createElement('option')
-        const color2 = document.createElement('option')
-        const color3 = document.createElement('option')
-        color0.value = colorValue0;
-        color1.value = colorValue1;
-        color2.value = colorValue2;
-        color3.value = colorValue3;
-        color0.textContent = colorValue0
-        color1.textContent = colorValue1
-        color2.textContent = colorValue2
-        color3.textContent = colorValue3
-
-        
-        
-
-
-
-        
-        
-
-        
-
-
-
-        
-        affichageImg.appendChild(imageUrl)
-        imageUrl.appendChild(altTxt)
-        affichageTitle.innerHTML = title;
-        affichagePrice.innerHTML = price;
-        affichageDescription.innerHTML = description;
-        affichageOption.appendChild(color0);
-        affichageOption.appendChild(color1);
-        affichageOption.appendChild(color2);
-        affichageOption.appendChild(color3);
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    
-    
-    })
-
-})
-
-.catch ((err) => {
-    const errorMessage = document.createElement("marquee");
-    errorMessage.textContent = `Gah, it's not working!`;
-})
+                        } else {
+                            alert("Attention, le nombre d'article doit être compris entre 1 et 100 maximum.");
+                        }
+                    });
+            }
+            setLocalStorage();
+        })
+        // Si l'API ne répond pas, un message d'erreur apparait 
+        .catch((error) => {
+            alert("Le serveur ne répond pas pour le moment.")
+        });
+}
+getDataFromApi();
