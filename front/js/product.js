@@ -2,7 +2,7 @@
 const dataID = new URLSearchParams(location.search).get("_id");
 
 //Fonction pour afficher les elements de l'API 
-function productPageId() {
+function getDataFromApi() {
   fetch(`http://localhost:3000/api/products/${dataID}`)
     .then((response) => {
       return response.json();
@@ -34,7 +34,7 @@ function productPageId() {
 
       // Ajouter élements dans localstorage 
       // Ajouter au panier 
-      function buttonAddToCart() {
+      function setLocalStorage() {
         document
           .getElementById("addToCart")
           .addEventListener("click", (event) => {
@@ -89,11 +89,11 @@ function productPageId() {
             }
           });
       }
-      buttonAddToCart();
+      setLocalStorage();
     })
     // Si l'API ne répond pas, un message d'erreur apparait 
     .catch((error) => {
       alert("Le serveur ne répond pas pour le moment.")
     });
 }
-productPageId();
+getDataFromApi();

@@ -7,7 +7,7 @@ try {
     );
 
     // Fonction pour afficher les données ajoutées dans le localstorage
-    function localStorageProductsDOM() {
+    function displayProducts() {
       if (localStorageProducts) {
         for (let index = 0; index < localStorageProducts.length; index++) {
           const productTotalPrice = localStorageProducts[index].price;
@@ -39,8 +39,8 @@ try {
             .insertAdjacentHTML("beforeend", productCart);
         }
 
-        // Fonction pour modifier la quantité un produit
-        function changeQuantity() {
+        // Fonction pour modifier la quantité d'un produit
+        function setQuantity() {
           const itemQuantity = document.querySelectorAll(".itemQuantity");
           for (let index = 0; index < itemQuantity.length; index++) {
             itemQuantity[index].addEventListener("change", (event) => {
@@ -71,7 +71,7 @@ try {
             });
           }
         }
-        changeQuantity();
+        setQuantity();
 
         // Fonction supprimer un article 
         function deleteArticle() {
@@ -97,27 +97,27 @@ try {
         
 
         // Fonction : calculer le prix des articles selectionner 
-        function priceCalculation() {
-          const priceCalculation = [];
+        function getTotalByArticle() {
+          const getTotalByArticle = [];
           for (let index = 0; index < localStorageProducts.length; index++) {
             // Additionne le prix selon la quantité selectionnée 
             const prixMontant =
               localStorageProducts[index].price *
               localStorageProducts[index].quantity;
-            priceCalculation.push(prixMontant);
+            getTotalByArticle.push(prixMontant);
             // Additionne la somme des resultats obtenus 
             const reduce = (previousValue, curentValue) =>
               previousValue + curentValue;
-            total = priceCalculation.reduce(reduce);
+            total = getTotalByArticle.reduce(reduce);
           }
           // Afficher le prix total de l'article
           const totalPrice = document.getElementById("totalPrice");
           totalPrice.textContent = total;
         }
-        priceCalculation();
+        getTotalByArticle();
 
         //Fonction : prix total
-        function totalArticles() {
+        function getTotal() {
           let total = 0;
           for (let index in localStorageProducts) {
             // Quantité total des articles 
@@ -128,7 +128,7 @@ try {
         }
         // Affiche le montant total du panier 
         const totalQuantity = document.getElementById("totalQuantity");
-        totalQuantity.textContent = totalArticles();
+        totalQuantity.textContent = getTotal();
 
        
         // Formulaire 
@@ -144,7 +144,7 @@ try {
         }
 
         // Fonctton : Validation. Teste la validité du formulaire 
-        function validation() {
+        function formValidation() {
           // Récupère le tableau construit 
           const contact = new Form();
           // Fonction pour le prénom 
@@ -252,11 +252,11 @@ try {
       
 
         // Bouton valider qui renvoi vers la page confirmation avec le numéro de commande 
-        function validOrder() {
+        function confirmOrder() {
           const order = document.getElementById("order");
           order.addEventListener("click", (event) => {
             event.preventDefault();
-            if (validation()) {
+            if (formValidation()) {
               // Si la fonction validation est true 
               const products = [];
               for (
@@ -301,19 +301,19 @@ try {
             }
           });
         }
-        validOrder();
+        confirmOrder();
       } else {
         // Confirmation de commande 
-        function letOrderId() {
+        function getOrderNumber() {
           let params = new URL(document.location).searchParams;
           let id = params.get("id");
           //Afficher le numéro de commande 
           document.getElementById("orderId").innerText = id;
         }
-        letOrderId();
+        getOrderNumber();
       }
     }
-    localStorageProductsDOM();
+    displayProducts();
   }
   getLocalStorageProducts();
 } catch (error) {

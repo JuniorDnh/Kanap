@@ -1,20 +1,20 @@
 //Appel de l'API
-function items() {
+function apiCall() {
   fetch("http://localhost:3000/api/products")
     // Transformation des données en format json
     .then((response) => response.json())
     .then((data) => {
-      addProducts(data);
+      displayProducts(data);
     })
     // Si l'API ne répond pas, un message d'erreur apparait
     .catch((error) => {
       alert("Le serveur ne répond pas pour le moment.")
     });
 }
-items();
+apiCall();
 
 // Affichage des données de L'API sur la page
-function addProducts(data) {
+function displayProducts(data) {
   //for...of permet de créer une boucle Array qui parcourt un objet itérable
   for (const product of data) {
     // Insère les noeuds du DOM à une position spécifique
