@@ -121,6 +121,7 @@ try {
           for (let index in localStorageProducts) {
             // Quantité total des articles
             const quantity = parseInt(localStorageProducts[index].quantity);
+            total += quantity;
             // Calcul le montant total
           }
           return total;
